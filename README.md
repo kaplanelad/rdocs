@@ -58,3 +58,7 @@ Upon executing the command `rdocs replace [COLLECT-FOLDER] [DOC-FOLDER]`, all ex
 - `rdocs replace`: for replace content replacement
 - `rdocs replace --check`: for CI example if you want to validate that the block are equal
 - `rdocs collect`: show all block
+
+
+## Example
+to see how it work visit [here](./rdocs/src/lib.rs) and see that part of this readme taken from lib.rs file. 
