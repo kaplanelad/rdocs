@@ -23,7 +23,7 @@
 //!
 //! let folder = Path::new("./fixtures");
 //! let config = Config{
-//!     includes: None,
+//!     includes: vec![],
 //!     excludes: vec![Regex::new("exclude.rs").unwrap()].into()
 //! };
 //! let collector = Collector::from_config(folder, &config).expect("Failed to create collector instance");
@@ -53,11 +53,11 @@ pub struct Collector {
 #[derive(Default, Clone, Debug, Serialize, Deserialize)]
 pub struct Config {
     /// Patterns to include files.
-    #[serde(skip_serializing_if = "Option::is_none", with = "serde_regex", default)]
-    pub includes: Option<Vec<Regex>>,
+    #[serde(with = "serde_regex", default)]
+    pub includes: Vec<Regex>,
     /// Patterns to exclude files.
-    #[serde(skip_serializing_if = "Option::is_none", with = "serde_regex", default)]
-    pub excludes: Option<Vec<Regex>>,
+    #[serde(with = "serde_regex", default)]
+    pub excludes: Vec<Regex>,
 }
 
 impl Collector {
@@ -94,12 +94,10 @@ impl Collector {
             .display()
             .to_string();
 
-        if let Some(excludes) = &self.config.excludes {
-            for exclude in excludes {
-                if exclude.is_match(&path) {
-                    tracing::trace!("file excluded from configurations");
-                    return true;
-                }
+        for exclude in &self.config.excludes {
+            if exclude.is_match(&path) {
+                tracing::trace!("file excluded from configurations");
+                return true;
             }
         }
         false
@@ -114,19 +112,18 @@ impl Collector {
             .display()
             .to_string();
 
-        match &self.config.includes {
-            Some(includes) => {
-                for include in includes {
-                    if include.is_match(&path) {
-                        tracing::trace!("file excluded from configurations");
-                        return true;
-                    }
-                }
-                tracing::debug!("file should not be included");
-                false
-            }
-            None => true,
+        if self.config.includes.is_empty() {
+            return true;
         }
+
+        for include in &self.config.includes {
+            if include.is_match(&path) {
+                tracing::trace!("file excluded from configurations");
+                return true;
+            }
+        }
+        tracing::debug!("file should not be included");
+        false
     }
 
     /// Collects files in the specified folder, respecting exclude and include
