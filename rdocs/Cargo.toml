@@ -2,7 +2,7 @@
 name = "rdocs"
 version = "0.1.0"
 edition = "2021"
-readme = "README.md"
+readme = "../README.md"
 repository = "https://github.com/kaplanelad/rdocs"
 description = "Code Documentation Made Simple"
 license = "Apache-2.0"
