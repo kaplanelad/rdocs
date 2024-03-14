@@ -1,0 +1,3 @@
+bin.name = "rdocs"
+args = ["replace", ".", "."]
+fs.sandbox = true

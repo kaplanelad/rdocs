@@ -1,0 +1,3 @@
+fn greet_person(name: &str) {
+    println!("Hello, {}! Welcome to the Rust example.", name);
+}

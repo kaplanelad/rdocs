@@ -1,0 +1,30 @@
+```console
+$ TEST=true rdocs replace --dry-run ./fixtures/default ./fixtures/diff
+[
+    [
+        "id",
+        "status",
+        "path",
+        "",
+    ],
+    [
+        "adding_numbers",
+        "replaced",
+        "[CWD]/fixtures/diff/file-2.md",
+        "// remove this line/nfn add_numbers(a: i32, b: i32) -> i32 {/n    a + b/n}",
+    ],
+    [
+        "greet_person",
+        "replaced",
+        "[CWD]/fixtures/diff/file-2.md",
+        "fn greet_person(name: &str) {/n    println!(/"Hello, {}! Welcome to the Rust example./", name);/n}",
+    ],
+    [
+        "total_example",
+        "equal",
+        "[CWD]/fixtures/diff/file1.md",
+        "",
+    ],
+]
+
+```

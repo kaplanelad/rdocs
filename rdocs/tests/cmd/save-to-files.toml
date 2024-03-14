@@ -1,0 +1,4 @@
+bin.name = "rdocs"
+args = ["collect", "--output", "./tests/cmd/collect-file.in"]
+fs.sandbox = true
+status.code = 0

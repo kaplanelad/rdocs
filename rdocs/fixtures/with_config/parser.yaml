@@ -1,0 +1,12 @@
+---
+parser:
+  patterns:
+  - start: START_KEY
+    end: END_KEY
+    cleanups: 
+      - "// remove.*"
+collector: 
+  includes: 
+  excludes: 
+    - test.rs
+

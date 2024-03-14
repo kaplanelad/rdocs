@@ -1,0 +1,10 @@
+---
+source: rdocs-extractor/src/parser.rs
+expression: "Parser::new(root_path.join(\"main.rs\").as_path(), &patterns)"
+---
+Err(
+    PatterNotEqual {
+        pattern_start: "//\\s*📖\\s*#START",
+        pattern_end: "//\\s*📖\\s*#INVALID_CLOSE",
+    },
+)

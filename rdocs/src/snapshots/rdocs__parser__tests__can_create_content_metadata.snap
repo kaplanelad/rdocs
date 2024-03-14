@@ -1,0 +1,9 @@
+---
+source: rdocs-extractor/src/parser.rs
+expression: "ContentMetadata::new(\"<id: second pattern >\")"
+---
+Some(
+    ContentMetadata {
+        id: "second pattern",
+    },
+)

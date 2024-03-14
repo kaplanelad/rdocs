@@ -1,0 +1,60 @@
+```console
+$ rdocs --help
+Code Documentation Made Simple
+
+Usage: rdocs [OPTIONS] [PATH] <COMMAND>
+
+Commands:
+  collect  Collect documentation blocks
+  replace  Collect documentation blocks and replace with a given target
+  help     Print this message or the help of the given subcommand(s)
+
+Arguments:
+  [PATH]  Source code directory for collecting documentation [default: .]
+
+Options:
+  -l, --log-level <LOG_LEVEL>  Log level [default: INFO]
+  -c, --config <CONFIG>        Source code directory for collecting documentation
+  -h, --help                   Print help
+  -V, --version                Print version
+
+```
+
+```console
+$ rdocs collect --help
+Collect documentation blocks
+
+Usage: rdocs collect [OPTIONS] [PATH]
+
+Arguments:
+  [PATH]
+          Source code directory for collecting documentation
+          
+          [default: .]
+
+Options:
+  -l, --log-level <LOG_LEVEL>
+          Log level
+          
+          [default: INFO]
+
+  -o, --output <OUTPUT>
+          Save result to the given file. if not provided the results will print to the stdout 
+
+  -c, --config <CONFIG>
+          Source code directory for collecting documentation
+
+  -f, --format <FORMAT>
+          Result output
+
+          Possible values:
+          - json: Export in JSON format
+          - yaml: Export in YAML format
+
+  -h, --help
+          Print help (see a summary with '-h')
+
+  -V, --version
+          Print version
+
+```

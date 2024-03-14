@@ -1,0 +1,5 @@
+---
+source: rdocs/src/replacer.rs
+expression: "std::fs::read_to_string(data.join(\"README.md\")).unwrap()"
+---
+"some text\nsome text\n<!-- 📖REPLACE-1 -->\nNEW CONTENT1\n<!-- REPLACE-1📖 -->\nsome text\nsome text\n<!-- 📖REPLACE-2 -->\nNEW CONTENT2\n<!-- REPLACE-2📖 -->()\n"

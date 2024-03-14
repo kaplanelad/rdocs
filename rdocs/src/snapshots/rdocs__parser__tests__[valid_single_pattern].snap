@@ -1,0 +1,25 @@
+---
+source: rdocs-extractor/src/parser.rs
+expression: "Parser::new(root_path.join(\"main.rs\").as_path(), &patterns)"
+---
+Ok(
+    Parser {
+        path: REDUCTED
+        file: File {
+            fd: REDUCTED
+            path: REDUCTED
+            read: true,
+            write: false,
+        },
+        patterns: [
+            Pattern {
+                start: Regex(
+                    "//\\s*📖\\s*#START",
+                ),
+                end: Regex(
+                    "//\\s*📖\\s*#END",
+                ),
+            },
+        ],
+    },
+)

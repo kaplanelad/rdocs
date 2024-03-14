@@ -1,0 +1,72 @@
+```console
+$ rdocs collect ./fixtures
+// remove this line
+fn add_numbers(a: i32, b: i32) -> i32 {
+    a + b
+}
+fn greet_person(name: &str) {
+    println!("Hello, {}! Welcome to the Rust example.", name);
+}
+fn main() {
+    // Call the add_numbers function
+    let result = add_numbers(5, 7);
+    println!("Result of adding numbers: {}", result);
+
+    // Call the greet_person function
+    greet_person("Alice");
+}
+
+```
+```console
+$ rdocs collect --format yaml ./fixtures
+- metadata:
+    id: adding_numbers
+  data: |-
+    // remove this line
+    fn add_numbers(a: i32, b: i32) -> i32 {
+        a + b
+    }
+- metadata:
+    id: greet_person
+  data: |-
+    fn greet_person(name: &str) {
+        println!("Hello, {}! Welcome to the Rust example.", name);
+    }
+- metadata:
+    id: total_example
+  data: |-
+    fn main() {
+        // Call the add_numbers function
+        let result = add_numbers(5, 7);
+        println!("Result of adding numbers: {}", result);
+
+        // Call the greet_person function
+        greet_person("Alice");
+    }
+
+
+```
+```console
+$ rdocs collect --format json ./fixtures
+[
+  {
+    "metadata": {
+      "id": "adding_numbers"
+    },
+    "data": "// remove this line/nfn add_numbers(a: i32, b: i32) -> i32 {/n    a + b/n}"
+  },
+  {
+    "metadata": {
+      "id": "greet_person"
+    },
+    "data": "fn greet_person(name: &str) {/n    println!(/"Hello, {}! Welcome to the Rust example./", name);/n}"
+  },
+  {
+    "metadata": {
+      "id": "total_example"
+    },
+    "data": "fn main() {/n    // Call the add_numbers function/n    let result = add_numbers(5, 7);/n    println!(/"Result of adding numbers: {}/", result);/n/n    // Call the greet_person function/n    greet_person(/"Alice/");/n}"
+  }
+]
+
+```

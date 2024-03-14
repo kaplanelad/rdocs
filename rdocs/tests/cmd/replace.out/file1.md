@@ -1,0 +1,10 @@
+<!-- 📖total_example -->
+fn main() {
+    // Call the add_numbers function
+    let result = add_numbers(5, 7);
+    println!("Result of adding numbers: {}", result);
+
+    // Call the greet_person function
+    greet_person("Alice");
+}
+<!-- total_example📖 -->

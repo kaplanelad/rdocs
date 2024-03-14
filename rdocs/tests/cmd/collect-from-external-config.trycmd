@@ -1,0 +1,7 @@
+```console
+$ rdocs collect --config ./fixtures/with_config/parser.yaml
+fn exclude(a: i32, b: i32) -> i32 {
+    a + b
+}
+
+```

@@ -1,0 +1,17 @@
+---
+source: rdocs-extractor/src/pattern.rs
+expression: "Pattern::default()"
+---
+Pattern {
+    start: Regex(
+        "//\\s*📖\\s*#START",
+    ),
+    end: Regex(
+        "//\\s*📖\\s*#END",
+    ),
+    cleanups: [
+        Regex(
+            "//!",
+        ),
+    ],
+}

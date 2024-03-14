@@ -1,0 +1,27 @@
+---
+source: rdocs/src/replacer.rs
+expression: "replacer.replace(data.join(\"README.md\").as_path(), &contents)"
+---
+Ok(
+    (
+        "some text\nsome text\n<!-- 📖REPLACE-1 -->\nNEW CONTENT1\n<!-- REPLACE-1📖 -->\nsome text\nsome text\n<!-- 📖REPLACE-2 -->\nNEW CONTENT2\n<!-- REPLACE-2📖 -->()\n",
+        [
+            ReplaceResult {
+                path: REDUCT
+                status: Replaced(
+                    "REPLACE-1",
+                    "some text\nsome text\n<!-- 📖REPLACE-1 -->\nNEW CONTENT1\n<!-- REPLACE-1📖 -->\nsome text\nsome text\n<!-- 📖REPLACE-2 -->\nR\nD\nO\nC\nS\n<!-- REPLACE-2📖 -->()\n",
+                    "NEW CONTENT1",
+                ),
+            },
+            ReplaceResult {
+                path: REDUCT
+                status: Replaced(
+                    "REPLACE-2",
+                    "some text\nsome text\n<!-- 📖REPLACE-1 -->\nNEW CONTENT1\n<!-- REPLACE-1📖 -->\nsome text\nsome text\n<!-- 📖REPLACE-2 -->\nNEW CONTENT2\n<!-- REPLACE-2📖 -->()\n",
+                    "NEW CONTENT2",
+                ),
+            },
+        ],
+    ),
+)

@@ -1,0 +1,38 @@
+---
+source: rdocs-extractor/src/parser.rs
+expression: "Content::new(res.join(\"test.rs\").as_path(), &patterns)"
+---
+Ok(
+    Content {
+        path: REDUCT
+        patterns: [
+            Pattern {
+                start: Regex(
+                    ".*#START",
+                ),
+                end: Regex(
+                    ".*#END",
+                ),
+                cleanups: [
+                    Regex(
+                        "```",
+                    ),
+                ],
+            },
+            Pattern {
+                start: Regex(
+                    ".*#PATTERN_2_START",
+                ),
+                end: Regex(
+                    ".*#PATTERN_2_END",
+                ),
+                cleanups: [
+                    Regex(
+                        "//!",
+                    ),
+                ],
+            },
+        ],
+        expected_capture_count: 2,
+    },
+)

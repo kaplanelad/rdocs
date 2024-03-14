@@ -1,0 +1,20 @@
+---
+source: rdocs-extractor/src/parser.rs
+expression: c.extract()
+---
+Ok(
+    [
+        ContentResults {
+            metadata: ContentMetadata {
+                id: "first example",
+            },
+            data: "pub fn test() {\n             another_function(5);\n        }\n        fn another_function(x: i32) {\n            println!(\"The value of x is: {x}\");\n        }",
+        },
+        ContentResults {
+            metadata: ContentMetadata {
+                id: "second pattern",
+            },
+            data: "pub fn test() bool{\n           true\n        }",
+        },
+    ],
+)
