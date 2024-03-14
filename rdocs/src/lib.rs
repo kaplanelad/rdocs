@@ -35,6 +35,18 @@
 //! - **Minimal Dependencies:** Enable documentation validity even without
 //!   external tool dependencies.
 // 📖 #END
+//!
+// 📖 #START <id:installation>
+//! ## Installation
+//!
+//! Cargo install:
+//! ```sh
+//! cargo install rdocs
+//! ```
+//!
+//! GitHub Releases:
+//! https://github.com/kaplanelad/rdocs/releases/latest
+// 📖 #END
 
 #[cfg(feature = "cli")]
 pub mod cli;
