@@ -67,8 +67,7 @@ Upon executing the command `rdocs replace [COLLECT-FOLDER] [DOC-FOLDER]`, all ex
  cargo install rdocs
  ```
 
- GitHub Releases:
- https://github.com/kaplanelad/rdocs/releases/latest
+[GitHub Repository](https://github.com/kaplanelad/rdocs/releases/latest)
 <!-- installation📖 -->
 
 
