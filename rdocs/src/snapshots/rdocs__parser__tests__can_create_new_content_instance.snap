@@ -1,5 +1,5 @@
 ---
-source: rdocs-extractor/src/parser.rs
+source: rdocs/src/parser.rs
 expression: "Content::new(res.join(\"test.rs\").as_path(), &patterns)"
 ---
 Ok(
@@ -15,7 +15,7 @@ Ok(
                 ),
                 cleanups: [
                     Regex(
-                        "```",
+                        "$",
                     ),
                 ],
             },
