@@ -55,14 +55,14 @@ pub struct Content<'a> {
 }
 
 /// Represents a block of content with metadata and lines.
-#[derive(Debug, Serialize)]
+#[derive(Debug, Clone, Serialize)]
 pub struct ContentBlock {
     pub metadata: ContentMetadata,
     pub lines: Vec<String>,
 }
 
 /// Represents metadata associated with content, including an ID.
-#[derive(Debug, Serialize)]
+#[derive(Debug, Clone, Serialize)]
 pub struct ContentMetadata {
     pub id: String,
 }
@@ -189,8 +189,8 @@ impl<'a> Content<'a> {
 
         let mut collected_scoped_content = BTreeMap::new();
 
-        let mut current_levels = vec![0; self.patterns.len()];
-        let mut max_level = 0;
+        // let mut current_levels = vec![0; self.patterns.len()];
+        // let mut max_level = 0;
 
         for (line_index, line) in reader.lines().enumerate() {
             let line = line?;
@@ -210,39 +210,45 @@ impl<'a> Content<'a> {
                         metadata,
                         lines: vec![],
                     };
-
-                    current_levels[pattern_index] += 1;
-                    max_level = max_level.max(current_levels[pattern_index]);
-                    level_stack.insert(pattern_index, line_index);
-                    collected_scoped_content
-                        .entry((pattern_index, current_levels[pattern_index]))
-                        .or_insert(content_block);
+                    level_stack
+                        .entry(pattern_index)
+                        .or_insert_with(Vec::new)
+                        .push(content_block);
                 } else if pattern.end_with(&line) {
-                    level_stack.remove(&pattern_index);
-                } else if level_stack.contains_key(&pattern_index) {
-                    if let Some(content) = collected_scoped_content
-                        .get_mut(&(pattern_index, current_levels[pattern_index]))
-                    {
-                        content.lines.push(line.clone());
+                    if let Some(level) = level_stack.get_mut(&pattern_index) {
+                        if let Some(last) = level.last() {
+                            collected_scoped_content
+                                .entry(pattern_index)
+                                .or_insert_with(Vec::new)
+                                .push(last.clone());
+                        }
+                        level.pop();
+                    };
+                    // level_stack.remove(&pattern_index);
+                } else if let Some(levels) = level_stack.get_mut(&pattern_index) {
+                    for level in levels {
+                        level.lines.push(line.clone());
                     }
                 }
             }
         }
 
         let mut results = vec![];
-        for ((i, _), d) in collected_scoped_content {
-            let match_content = d.lines.join("\n");
-            let cleanup_result = if let Some(pattern) = self.patterns.get(i) {
-                pattern.cleanup(&match_content)
-            } else {
-                tracing::debug!("skip cleanups. pattern index not found");
-                match_content
-            };
+        for (pattern_index, blocks) in collected_scoped_content {
+            for block in blocks {
+                let match_content = block.lines.join("\n");
+                let cleanup_result = if let Some(pattern) = self.patterns.get(pattern_index) {
+                    pattern.cleanup(&match_content)
+                } else {
+                    tracing::debug!("skip cleanups. pattern index not found");
+                    match_content
+                };
 
-            results.push(ContentResults {
-                metadata: d.metadata,
-                data: cleanup_result.trim().to_string(),
-            });
+                results.push(ContentResults {
+                    metadata: block.metadata,
+                    data: cleanup_result.trim().to_string(),
+                });
+            }
         }
 
         Ok(results)
@@ -264,7 +270,7 @@ mod tests {
                 start: Regex::new(r".*#START").unwrap(),
                 end: Regex::new(r".*#END").unwrap(),
                 #[allow(clippy::trivial_regex)]
-                cleanups: vec![Regex::new(r"```").unwrap()],
+                cleanups: vec![Regex::new(r"$").unwrap()],
             },
             Pattern {
                 start: Regex::new(r".*#PATTERN_2_START").unwrap(),
@@ -321,14 +327,23 @@ mod tests {
 
     #[test]
     fn can_extract() {
-        let content = r#"//#START <id: first example>
-        pub fn test() {
-             another_function(5);
-        }
+        let content = r#"#START <id:readme.md>
+        <div align="center">
+             <h1>Snippgrep</h1>
+             [![Current Crates.io Version](https://img.shields.io/crates/v/snipgrep.svg)](https://crates.io/crates/loco-rs)
+        </div>
+        ## Quick Start
+        //#START <id:quick-start>
+        ```sh
+        $ cargo install snippgrep
+        ```
+        #END
+        ## Code Example
+        #PATTERN_2_START <id: second pattern >
         fn another_function(x: i32) {
-            println!("The value of x is: {x}");
+            //!println!("The value of x is: {x}");
         }
-        //#END
+        //#PATTERN_2_END
         //#PATTERN_2_START <id: second pattern >
         pub fn test() bool{
            true
@@ -336,6 +351,7 @@ mod tests {
         //#PATTERN_2_END
         //#START MISSING ID
         pub fn test() {}
+        //#END
         //#END
         "#;
         let res = Tree::default().add("test.rs", content).create().unwrap();

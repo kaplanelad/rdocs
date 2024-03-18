@@ -1,14 +1,26 @@
 ---
-source: rdocs-extractor/src/parser.rs
+source: rdocs/src/parser.rs
 expression: c.extract()
 ---
 Ok(
     [
         ContentResults {
             metadata: ContentMetadata {
-                id: "first example",
+                id: "quick-start",
             },
-            data: "pub fn test() {\n             another_function(5);\n        }\n        fn another_function(x: i32) {\n            println!(\"The value of x is: {x}\");\n        }",
+            data: "```sh\n        $ cargo install snippgrep\n        ```",
+        },
+        ContentResults {
+            metadata: ContentMetadata {
+                id: "readme.md",
+            },
+            data: "<div align=\"center\">\n             <h1>Snippgrep</h1>\n             [![Current Crates.io Version](https://img.shields.io/crates/v/snipgrep.svg)](https://crates.io/crates/loco-rs)\n        </div>\n        ## Quick Start\n        ```sh\n        $ cargo install snippgrep\n        ```\n        ## Code Example\n        #PATTERN_2_START <id: second pattern >\n        fn another_function(x: i32) {\n            //!println!(\"The value of x is: {x}\");\n        }\n        //#PATTERN_2_END\n        //#PATTERN_2_START <id: second pattern >\n        pub fn test() bool{\n           true\n        }\n        //#PATTERN_2_END\n        pub fn test() {}",
+        },
+        ContentResults {
+            metadata: ContentMetadata {
+                id: "second pattern",
+            },
+            data: "fn another_function(x: i32) {\n            println!(\"The value of x is: {x}\");\n        }",
         },
         ContentResults {
             metadata: ContentMetadata {
